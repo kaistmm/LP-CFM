@@ -1,0 +1,40 @@
+data:
+  wav_dir: /path/to/LJSpeech-1.1/wavs
+  train_filelist: filelists/train.json
+  valid_filelist: filelists/val.json
+  num_workers: 8
+
+audio:
+  sampling_rate: 22050
+  n_fft: 1024
+  hop_size: 256
+  win_size: 1024
+  n_mel: 80
+  fmin: 0
+  fmax: 8000
+
+model:
+  channels: 32          # 16 | 32 | 64 (UNet-16 / UNet-32 / UNet-64)
+
+flow:
+  mag: lp               # lp | ot
+  pha: lp               # lp | ot
+  lam: 1.0e-4           # lambda for LP-CFM (= sigma_min for OT-CFM)
+
+sampling:
+  n_steps: 6
+  vcs: true
+
+train:
+  seed: 1234
+  epochs: 500
+  batch_size: 16
+  segment_size: 22272   # 87 * hop_size
+  learning_rate: 5.0e-4
+  betas: [0.9, 0.99]
+  lr_decay: 0.99        # per epoch
+  grad_clip: 20.0
+  log_interval: 100
+  valid_interval: 2000
+  checkpoint_interval: 2000
+  num_valid_samples: 3  # audio samples written to tensorboard
